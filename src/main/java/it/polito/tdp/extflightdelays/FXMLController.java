@@ -19,37 +19,34 @@ public class FXMLController {
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
-
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
-
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
-
     @FXML // fx:id="compagnieMinimo"
     private TextField compagnieMinimo; // Value injected by FXMLLoader
-
     @FXML // fx:id="cmbBoxAeroportoPartenza"
     private ComboBox<Airport> cmbBoxAeroportoPartenza; // Value injected by FXMLLoader
-
     @FXML // fx:id="cmbBoxAeroportoDestinazione"
     private ComboBox<Airport> cmbBoxAeroportoDestinazione; // Value injected by FXMLLoader
-
     @FXML // fx:id="btnAnalizza"
     private Button btnAnalizza; // Value injected by FXMLLoader
-
     @FXML // fx:id="btnConnessione"
     private Button btnConnessione; // Value injected by FXMLLoader
 
     @FXML
-    void doAnalizzaAeroporti(ActionEvent event) {
+    void doAnalizzaAeroporti(ActionEvent event) 
+    {
     	txtResult.clear();
     	
     	int x;
     	
-    	try {
+    	try 
+    	{
     		x = Integer.parseInt(compagnieMinimo.getText());
-    	} catch (NumberFormatException e) {
+    	} 
+    	catch (NumberFormatException e) 
+    	{
     		txtResult.appendText("Inserire valore numerico");
     		return;
     	}
@@ -59,30 +56,45 @@ public class FXMLController {
     	txtResult.appendText("# VERTICI: " + this.model.nVertici() + "\n");
     	txtResult.appendText("# ARCHI: " + this.model.nArchi());
     	
+    	cmbBoxAeroportoPartenza.getItems().clear();
+    	cmbBoxAeroportoDestinazione.getItems().clear();
+    	
     	cmbBoxAeroportoPartenza.getItems().addAll(this.model.getVertici());
     	cmbBoxAeroportoDestinazione.getItems().addAll(this.model.getVertici());
     }
 
     @FXML
-    void doTestConnessione(ActionEvent event) {
+    void doTestConnessione(ActionEvent event) 
+    {
     	txtResult.clear();
+    	
     	if(cmbBoxAeroportoPartenza.getValue() == null ||
-    			cmbBoxAeroportoDestinazione.getValue() == null) {
+    			cmbBoxAeroportoDestinazione.getValue() == null) 
+    	{
     		txtResult.appendText("Seleziona i due aeroporti!");
     		return ;
     	}
     	
     	List<Airport> percorso = this.model.getPercorso(cmbBoxAeroportoPartenza.getValue(), cmbBoxAeroportoDestinazione.getValue());
     	
-    	if(percorso == null) {
+    	if(percorso == null) 
+    	{
     		txtResult.appendText("I due aeroporti non sono collegati");
-    	} else {
-    		txtResult.appendText(percorso.toString());
+    	} 
+    	else 
+    	{
+    		txtResult.appendText("Percorso:\n");
+    		
+    		for(Airport a: percorso)
+    		{
+    			this.txtResult.appendText(a.toString() + "\n");
+    		}
     	}
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
-    void initialize() {
+    void initialize() 
+    {
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
         assert compagnieMinimo != null : "fx:id=\"compagnieMinimo\" was not injected: check your FXML file 'Scene.fxml'.";
         assert cmbBoxAeroportoPartenza != null : "fx:id=\"cmbBoxAeroportoPartenza\" was not injected: check your FXML file 'Scene.fxml'.";
@@ -92,7 +104,8 @@ public class FXMLController {
 
     }
     
-    public void setModel(Model model) {
+    public void setModel(Model model) 
+    {
     	this.model = model;
     }
 }
